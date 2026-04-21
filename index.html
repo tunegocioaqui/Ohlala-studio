@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polly Nails Spa — Santiago de Querétaro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ============================================
+       VARIABLES & RESET
+    ============================================ */
+    :root {
+      --rose:    #f2c4ce;
+      --rose-d:  #e8a0b0;
+      --rose-l:  #fdf0f3;
+      --gold:    #c9a96e;
+      --gold-l:  #e8d5b0;
+      --gold-d:  #a07840;
+      --white:   #ffffff;
+      --off-w:   #faf8f5;
+      --text:    #3a2a2a;
+      --text-l:  #7a6060;
+      --shadow:  0 8px 40px rgba(201,169,110,.18);
+      --radius:  18px;
+      --trans:   .4s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: 'Lato', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+    img { display: block; width: 100%; object-fit: cover; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ============================================
+       NAVBAR
+    ============================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,169,110,.2);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+      transition: box-shadow var(--trans);
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(201,169,110,.18); }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; color: var(--gold-d); letter-spacing: 1px;
+    }
+    .nav-brand span { color: var(--rose-d); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: .88rem; letter-spacing: .8px; text-transform: uppercase;
+      color: var(--text-l); font-weight: 700;
+      position: relative; padding-bottom: 3px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--gold);
+      transition: width var(--trans);
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), var(--gold-d));
+      color: var(--white) !important;
+      padding: .5rem 1.4rem; border-radius: 50px;
+      font-size: .82rem !important; letter-spacing: 1px;
+      box-shadow: 0 4px 16px rgba(201,169,110,.35);
+      transition: transform var(--trans), box-shadow var(--trans);
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,169,110,.45); }
+    .nav-cta::after { display: none !important; }
+    .burger { display: none; font-size: 1.4rem; color: var(--gold-d); cursor: pointer; }
+    .mobile-menu {
+      display: none; flex-direction: column; gap: 0;
+      position: fixed; top: 70px; left: 0; right: 0; z-index: 999;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--rose);
+      padding: 1rem 5%;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: .85rem 0; border-bottom: 1px solid var(--rose-l);
+      font-weight: 700; font-size: .9rem; color: var(--text);
+      letter-spacing: .5px;
+    }
+
+    /* ============================================
+       SECTION COMMON
+    ============================================ */
+    section { padding: 100px 5%; }
+    .section-tag {
+      display: inline-block; font-size: .75rem; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 700; margin-bottom: .6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--text); line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      font-size: 1rem; color: var(--text-l); max-width: 560px;
+      line-height: 1.7; margin-bottom: 3rem;
+    }
+    .divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--rose-d));
+      border-radius: 2px; margin: 1rem 0 2.5rem;
+    }
+    .center { text-align: center; }
+    .center .section-subtitle,
+    .center .divider { margin-left: auto; margin-right: auto; }
+
+    /* FADE-IN ANIMATION */
+    .fade-in { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    #hero {
+      min-height: 100vh; padding: 0;
+      background: linear-gradient(160deg, #fdf4f6 0%, #fef9f0 60%, #f8f0fa 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg-pattern {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(242,196,206,.45) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(201,169,110,.2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(242,196,206,.12) 0%, transparent 60%);
+    }
+    .hero-petals {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .petal {
+      position: absolute; width: 18px; height: 28px;
+      background: linear-gradient(135deg, rgba(242,196,206,.6), rgba(232,160,176,.4));
+      border-radius: 50% 50% 50% 0; opacity: .5;
+      animation: falling linear infinite;
+    }
+    @keyframes falling {
+      0%  { transform: translateY(-80px) rotate(0deg); opacity: .5; }
+      100%{ transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    .hero-inner {
+      position: relative; z-index: 2; text-align: center;
+      max-width: 800px; padding: 2rem 1.5rem;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.7); border: 1px solid var(--rose);
+      padding: .4rem 1.2rem; border-radius: 50px; margin-bottom: 2rem;
+      font-size: .78rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-d); font-weight: 700;
+      backdrop-filter: blur(8px);
+    }
+    .hero-logo-ring {
+      width: 130px; height: 130px; margin: 0 auto 2rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-l), var(--gold-l));
+      border: 3px solid var(--gold-l);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .hero-logo-ring::before {
+      content: ''; position: absolute; inset: -8px; border-radius: 50%;
+      border: 1px dashed rgba(201,169,110,.4);
+    }
+    .hero-logo-ring i { font-size: 3.2rem; color: var(--gold-d); }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      color: var(--text); letter-spacing: -1px; line-height: 1.05;
+      margin-bottom: .5rem;
+    }
+    .hero-title span { color: var(--gold-d); }
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--text-l); font-style: italic; margin-bottom: .8rem;
+    }
+    .hero-slogan {
+      font-size: clamp(.85rem, 2vw, 1rem);
+      color: var(--text-l); letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 2.8rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-d));
+      color: var(--white); padding: .9rem 2.2rem; border-radius: 50px;
+      font-size: .9rem; font-weight: 700; letter-spacing: 1px;
+      box-shadow: 0 6px 30px rgba(201,169,110,.4);
+      transition: transform var(--trans), box-shadow var(--trans);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(201,169,110,.5); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: .6rem;
+      border: 2px solid var(--gold); color: var(--gold-d);
+      padding: .9rem 2.2rem; border-radius: 50px;
+      font-size: .9rem; font-weight: 700; letter-spacing: 1px;
+      transition: background var(--trans), color var(--trans);
+    }
+    .btn-secondary:hover { background: var(--gold); color: var(--white); }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: var(--text-l); font-size: .72rem; letter-spacing: 2px; text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,100%{ transform: translateX(-50%) translateY(0); }
+      50%    { transform: translateX(-50%) translateY(8px); }
+    }
+    .hero-scroll i { font-size: 1.1rem; color: var(--gold); }
+
+    /* ============================================
+       SERVICES
+    ============================================ */
+    #services { background: var(--white); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--off-w);
+      border: 1px solid rgba(242,196,206,.5);
+      border-radius: var(--radius);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+      cursor: default;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+      border-color: var(--rose-d);
+    }
+    .service-icon {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-l), var(--gold-l));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-size: 1.6rem; color: var(--gold-d);
+      box-shadow: 0 4px 16px rgba(242,196,206,.5);
+    }
+    .service-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; margin-bottom: .6rem; color: var(--text);
+    }
+    .service-card p { font-size: .88rem; color: var(--text-l); line-height: 1.6; }
+
+    /* ============================================
+       GALLERY
+    ============================================ */
+    #gallery { background: var(--rose-l); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .gallery-item {
+      border-radius: var(--radius); overflow: hidden;
+      aspect-ratio: 1 / 1.1; position: relative;
+      cursor: pointer;
+    }
+    .gallery-item .placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--rose), var(--gold-l));
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .7rem; color: var(--gold-d);
+      transition: transform var(--trans);
+    }
+    .gallery-item:hover .placeholder { transform: scale(1.04); }
+    .gallery-item .placeholder i { font-size: 2.4rem; opacity: .7; }
+    .gallery-item .placeholder span {
+      font-size: .78rem; letter-spacing: 1.5px; text-transform: uppercase;
+      font-weight: 700; opacity: .7;
+    }
+    .gallery-item .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(58,42,42,.55), transparent);
+      opacity: 0; transition: opacity var(--trans);
+      display: flex; align-items: flex-end; padding: 1.2rem;
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .gallery-item .overlay span { color: var(--white); font-size: .85rem; font-weight: 700; }
+
+    /* ============================================
+       WHY US
+    ============================================ */
+    #why { background: var(--white); }
+    .why-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .why-visual {
+      border-radius: 24px; overflow: hidden; position: relative;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, var(--rose-l) 0%, var(--gold-l) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .why-visual i { font-size: 6rem; color: var(--gold-d); opacity: .4; }
+    .why-visual .floating-badge {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: var(--white); border-radius: 16px; padding: 1rem 1.5rem;
+      box-shadow: var(--shadow); text-align: center; white-space: nowrap;
+    }
+    .why-visual .floating-badge .num {
+      font-family: 'Playfair Display', serif; font-size: 2.2rem;
+      color: var(--gold-d); font-weight: 700; line-height: 1;
+    }
+    .why-visual .floating-badge p { font-size: .78rem; color: var(--text-l); margin-top: .2rem; }
+    .why-list { display: flex; flex-direction: column; gap: 1.6rem; }
+    .why-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+    .why-item-icon {
+      flex-shrink: 0; width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--rose-l), var(--gold-l));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--gold-d);
+    }
+    .why-item h4 {
+      font-family: 'Playfair Display', serif; font-size: 1.05rem;
+      margin-bottom: .3rem;
+    }
+    .why-item p { font-size: .87rem; color: var(--text-l); line-height: 1.6; }
+
+    /* ============================================
+       PRICING
+    ============================================ */
+    #pricing { background: var(--off-w); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .price-card {
+      background: var(--white);
+      border: 1.5px solid rgba(242,196,206,.6);
+      border-radius: var(--radius); overflow: hidden;
+      transition: transform var(--trans), box-shadow var(--trans);
+    }
+    .price-card.featured { border-color: var(--gold); }
+    .price-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .price-card-header {
+      padding: 1.8rem 1.8rem 1.2rem;
+      background: linear-gradient(135deg, var(--rose-l), var(--gold-l));
+    }
+    .price-card.featured .price-card-header {
+      background: linear-gradient(135deg, var(--gold-l), var(--gold));
+    }
+    .price-tag-line {
+      font-size: .7rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-d); font-weight: 700; margin-bottom: .4rem;
+    }
+    .price-card.featured .price-tag-line { color: var(--gold-d); }
+    .price-category {
+      font-family: 'Playfair Display', serif; font-size: 1.35rem;
+      color: var(--text);
+    }
+    .price-body { padding: 1.6rem 1.8rem; }
+    .price-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .7rem 0; border-bottom: 1px solid var(--rose-l);
+      font-size: .9rem;
+    }
+    .price-row:last-child { border-bottom: none; }
+    .price-row .svc { color: var(--text); }
+    .price-row .amt {
+      font-family: 'Playfair Display', serif; font-weight: 600;
+      color: var(--gold-d); font-size: 1rem;
+    }
+
+    /* ============================================
+       TESTIMONIALS
+    ============================================ */
+    #testimonials { background: var(--white); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+    }
+    .testimonial-card {
+      background: var(--off-w);
+      border: 1px solid rgba(242,196,206,.5);
+      border-radius: var(--radius); padding: 2rem;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      position: absolute; top: 1rem; right: 1.5rem;
+      font-size: 5rem; color: var(--rose); line-height: 1;
+      pointer-events: none;
+    }
+    .stars { color: var(--gold); font-size: .9rem; margin-bottom: .8rem; }
+    .testimonial-text {
+      font-size: .92rem; color: var(--text-l); line-height: 1.75;
+      font-style: italic; margin-bottom: 1.2rem;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: .8rem; }
+    .author-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--gold-l));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--gold-d); flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Playfair Display', serif; font-size: .95rem;
+      color: var(--text); margin-bottom: .1rem;
+    }
+    .author-since { font-size: .75rem; color: var(--text-l); }
+
+    /* ============================================
+       CONTACT
+    ============================================ */
+    #contact { background: var(--rose-l); }
+    .contact-wrapper {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 3rem;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+    .contact-block { display: flex; gap: 1.1rem; align-items: flex-start; }
+    .contact-block-icon {
+      width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--white), var(--gold-l));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: var(--gold-d);
+      box-shadow: 0 4px 16px rgba(201,169,110,.2);
+    }
+    .contact-block h4 {
+      font-family: 'Playfair Display', serif; font-size: 1rem;
+      margin-bottom: .3rem;
+    }
+    .contact-block p, .contact-block a {
+      font-size: .9rem; color: var(--text-l); line-height: 1.6;
+    }
+    .contact-block a:hover { color: var(--gold-d); }
+    .schedule-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .3rem .8rem;
+      font-size: .88rem;
+    }
+    .schedule-grid .day { color: var(--text); font-weight: 700; }
+    .schedule-grid .time { color: var(--text-l); }
+    .map-container {
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); height: 100%; min-height: 380px;
+    }
+    .map-container iframe {
+      width: 100%; height: 100%; border: none; min-height: 380px;
+    }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+      background: linear-gradient(135deg, #2a1a20, #3a2a2a);
+      color: rgba(255,255,255,.8); padding: 3.5rem 5% 2rem;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 2.5rem; margin-bottom: 2.5rem;
+    }
+    .footer-brand-name {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem;
+      color: var(--gold); margin-bottom: .5rem;
+    }
+    .footer-brand-name span { color: var(--rose); }
+    .footer-tagline { font-size: .85rem; color: rgba(255,255,255,.5); margin-bottom: 1.2rem; line-height: 1.6; }
+    .footer-social { display: flex; gap: .8rem; }
+    .footer-social a {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: rgba(255,255,255,.7);
+      transition: background var(--trans), color var(--trans), transform var(--trans);
+    }
+    .footer-social a:hover { background: var(--gold); color: var(--white); transform: translateY(-3px); }
+    .footer-col h5 {
+      font-family: 'Playfair Display', serif; color: var(--gold);
+      font-size: 1rem; margin-bottom: 1rem;
+    }
+    .footer-col ul li { margin-bottom: .55rem; }
+    .footer-col ul li a {
+      font-size: .85rem; color: rgba(255,255,255,.55);
+      transition: color var(--trans);
+    }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: .5rem;
+    }
+    .footer-bottom p { font-size: .8rem; color: rgba(255,255,255,.35); }
+
+    /* ============================================
+       WHATSAPP FLOAT
+    ============================================ */
+    .wa-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25d366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(37,211,102,.45);
+      font-size: 1.7rem; color: var(--white);
+      animation: pulse 2.5s infinite;
+      transition: transform var(--trans);
+    }
+    .wa-float:hover { transform: scale(1.12); }
+    @keyframes pulse {
+      0%,100%{ box-shadow: 0 6px 24px rgba(37,211,102,.45); }
+      50%    { box-shadow: 0 6px 36px rgba(37,211,102,.7); }
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media(max-width: 900px) {
+      .why-wrapper { grid-template-columns: 1fr; }
+      .why-visual { aspect-ratio: 16/9; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width: 640px) {
+      section { padding: 70px 5%; }
+      .nav-links { display: none; }
+      .burger { display: block; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======================================================
+     NAVBAR
+====================================================== -->
+<nav id="navbar">
+  <div class="nav-brand">Polly <span>Nails</span> Spa</div>
+  <ul class="nav-links">
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#gallery">Galería</a></li>
+    <li><a href="#pricing">Precios</a></li>
+    <li><a href="#testimonials">Reseñas</a></li>
+    <li><a href="#contact">Contacto</a></li>
+    <li><a href="https://wa.me/524421234567?text=Hola!%20Quiero%20reservar%20una%20cita%20en%20Polly%20Nails%20Spa" target="_blank" class="nav-cta"><i class="fab fa-whatsapp"></i> Reservar</a></li>
+  </ul>
+  <div class="burger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services"      onclick="closeMenu()">Servicios</a>
+  <a href="#gallery"       onclick="closeMenu()">Galería</a>
+  <a href="#pricing"       onclick="closeMenu()">Precios</a>
+  <a href="#testimonials"  onclick="closeMenu()">Reseñas</a>
+  <a href="#contact"       onclick="closeMenu()">Contacto</a>
+  <a href="https://wa.me/524421234567?text=Hola!%20Quiero%20reservar%20una%20cita%20en%20Polly%20Nails%20Spa" target="_blank" onclick="closeMenu()"><i class="fab fa-whatsapp"></i> Reservar cita</a>
+</div>
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+<section id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-petals" id="petals"></div>
+
+  <div class="hero-inner fade-in">
+    <div class="hero-badge"><i class="fas fa-star"></i> Querétaro · Desde 2018</div>
+    <div class="hero-logo-ring"><i class="fas fa-spa"></i></div>
+    <h1 class="hero-title">Polly <span>Nails</span></h1>
+    <p class="hero-sub">Spa & Beauty Lounge</p>
+    <p class="hero-slogan">Donde cada detalle te hace brillar</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/524421234567?text=Hola!%20Quiero%20reservar%20una%20cita%20en%20Polly%20Nails%20Spa" target="_blank" class="btn-primary">
+        <i class="fab fa-whatsapp"></i> Reservar cita
+      </a>
+      <a href="#services" class="btn-secondary">
+        <i class="fas fa-sparkles"></i> Ver servicios
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- ======================================================
+     SERVICES
+====================================================== -->
+<section id="services">
+  <div class="center fade-in">
+    <span class="section-tag">Nuestros servicios</span>
+    <h2 class="section-title">Todo lo que necesitas para brillar</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Ofrecemos una experiencia completa de belleza y relajación con los mejores productos del mercado.</p>
+  </div>
+  <div class="services-grid fade-in">
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-hand-sparkles"></i></div>
+      <h3>Manicure</h3>
+      <p>Limpieza, forma, hidratación y color perfecto para tus manos. Manicure clásico, semi-permanente o francés.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-shoe-prints"></i></div>
+      <h3>Pedicure</h3>
+      <p>Exfoliación, baño de sales, masaje relajante y aplicación de esmalte. Cuida tus pies con amor.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-gem"></i></div>
+      <h3>Uñas Acrílicas</h3>
+      <p>Extensiones duraderas y resistentes en la forma que desees: coffin, almendra, cuadrada y más.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-star"></i></div>
+      <h3>Uñas en Gel</h3>
+      <p>Acabado brillante, flexible y de larga duración. Ideal para quienes buscan naturalidad y elegancia.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+      <h3>Nail Art</h3>
+      <p>Diseños únicos: flores, degradados, piedras, glitter, encapsulados y tendencias de temporada.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-spa"></i></div>
+      <h3>Tratamientos Spa</h3>
+      <p>Masajes de manos y pies, tratamientos de parafina, hidratación profunda y aromaterapia.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-leaf"></i></div>
+      <h3>Depilación</h3>
+      <p>Depilación con cera fría y caliente para piernas, axilas, bikini y rostro con productos de primera calidad.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="fas fa-heart"></i></div>
+      <h3>Paquetes VIP</h3>
+      <p>Combina servicios y ahorra. Perfectos para ocasiones especiales, XV años, bodas y eventos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     GALLERY
+====================================================== -->
+<section id="gallery">
+  <div class="center fade-in">
+    <span class="section-tag">Galería</span>
+    <h2 class="section-title">Nuestros diseños favoritos</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Cada uña es una obra de arte. Inspírate en nuestra colección de diseños exclusivos.</p>
+  </div>
+  <div class="gallery-grid fade-in" id="galleryGrid"></div>
+</section>
+
+<!-- ======================================================
+     WHY US
+====================================================== -->
+<section id="why">
+  <div class="why-wrapper">
+    <div class="why-visual fade-in">
+      <i class="fas fa-spa"></i>
+      <div class="floating-badge">
+        <div class="num">500+</div>
+        <p>Clientas felices</p>
+      </div>
+    </div>
+    <div class="fade-in">
+      <span class="section-tag">¿Por qué elegirnos?</span>
+      <h2 class="section-title">La experiencia de lujo que mereces</h2>
+      <div class="divider"></div>
+      <div class="why-list">
+        <div class="why-item">
+          <div class="why-item-icon"><i class="fas fa-shield-halved"></i></div>
+          <div>
+            <h4>Higiene garantizada</h4>
+            <p>Esterilizamos todos nuestros instrumentos entre servicio y servicio. Tu salud es nuestra prioridad número uno.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-item-icon"><i class="fas fa-award"></i></div>
+          <div>
+            <h4>Productos de alta calidad</h4>
+            <p>Trabajamos con marcas premium importadas: OPI, CND, Gelish y más. Colores que duran y cuidan.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-item-icon"><i class="fas fa-music"></i></div>
+          <div>
+            <h4>Ambiente relajante</h4>
+            <p>Música suave, aromas delicados y una decoración pensada para que te sientas como en un oasis de paz.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-item-icon"><i class="fas fa-certificate"></i></div>
+          <div>
+            <h4>Personal certificado</h4>
+            <p>Todas nuestras técnicas están certificadas y en constante actualización para ofrecerte las últimas tendencias.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     PRICING
+====================================================== -->
+<section id="pricing">
+  <div class="center fade-in">
+    <span class="section-tag">Precios</span>
+    <h2 class="section-title">Tarifas transparentes y justas</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">Calidad premium a precios accesibles. Sin sorpresas, sin cargos ocultos.</p>
+  </div>
+  <div class="pricing-grid fade-in">
+    <div class="price-card">
+      <div class="price-card-header">
+        <p class="price-tag-line">Básico</p>
+        <h3 class="price-category">Manicure & Pedicure</h3>
+      </div>
+      <div class="price-body">
+        <div class="price-row"><span class="svc">Manicure clásico</span><span class="amt">$120</span></div>
+        <div class="price-row"><span class="svc">Manicure semi-permanente</span><span class="amt">$180</span></div>
+        <div class="price-row"><span class="svc">Manicure francés</span><span class="amt">$150</span></div>
+        <div class="price-row"><span class="svc">Pedicure clásico</span><span class="amt">$180</span></div>
+        <div class="price-row"><span class="svc">Pedicure spa</span><span class="amt">$250</span></div>
+        <div class="price-row"><span class="svc">Retiro de esmalte</span><span class="amt">$80</span></div>
+      </div>
+    </div>
+    <div class="price-card featured">
+      <div class="price-card-header">
+        <p class="price-tag-line">⭐ Más popular</p>
+        <h3 class="price-category">Uñas en Gel & Acrílicas</h3>
+      </div>
+      <div class="price-body">
+        <div class="price-row"><span class="svc">Gel sobre uñas naturales</span><span class="amt">$280</span></div>
+        <div class="price-row"><span class="svc">Extensiones en gel</span><span class="amt">$420</span></div>
+        <div class="price-row"><span class="svc">Acrílicas básicas</span><span class="amt">$380</span></div>
+        <div class="price-row"><span class="svc">Acrílicas con diseño</span><span class="amt">$480+</span></div>
+        <div class="price-row"><span class="svc">Relleno acrílico/gel</span><span class="amt">$220</span></div>
+        <div class="price-row"><span class="svc">Retiro seguro</span><span class="amt">$120</span></div>
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-card-header">
+        <p class="price-tag-line">Especial</p>
+        <h3 class="price-category">Nail Art & Spa</h3>
+      </div>
+      <div class="price-body">
+        <div class="price-row"><span class="svc">Nail art sencillo</span><span class="amt">$50+</span></div>
+        <div class="price-row"><span class="svc">Nail art elaborado</span><span class="amt">$120+</span></div>
+        <div class="price-row"><span class="svc">Baño de parafina</span><span class="amt">$150</span></div>
+        <div class="price-row"><span class="svc">Depilación cejas</span><span class="amt">$80</span></div>
+        <div class="price-row"><span class="svc">Depilación piernas</span><span class="amt">$280</span></div>
+        <div class="price-row"><span class="svc">Masaje de manos</span><span class="amt">$180</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="center fade-in" style="margin-top:1.8rem;font-size:.85rem;color:var(--text-l);">* Precios en pesos mexicanos. Pueden variar según diseño y longitud. Consulta en WhatsApp para paquetes VIP.</p>
+</section>
+
+<!-- ======================================================
+     TESTIMONIALS
+====================================================== -->
+<section id="testimonials">
+  <div class="center fade-in">
+    <span class="section-tag">Testimonios</span>
+    <h2 class="section-title">Lo que dicen nuestras clientas</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="testimonials-grid fade-in">
+    <div class="testimonial-card">
+      <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p class="testimonial-text">"Las mejores uñas de Querétaro, sin exagerar. El ambiente es precioso, muy limpio y el personal súper amable. Mis acrílicas llevan 4 semanas perfectas."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <p class="author-name">Karla Mendoza</p>
+          <p class="author-since">Clienta desde 2021</p>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p class="testimonial-text">"Vine a hacerme las uñas para mi boda y quedé encantada. El nail art fue exactamente lo que pedí. Polly y su equipo son unas artistas increíbles."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <p class="author-name">Sofía Ramírez</p>
+          <p class="author-since">Clienta desde 2022</p>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p class="testimonial-text">"El pedicure spa es una experiencia de otro nivel. Sales completamente relajada. Los productos que usan huelen delicioso y la masajista tiene manos mágicas."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <p class="author-name">Daniela Torres</p>
+          <p class="author-since">Clienta desde 2020</p>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+      <p class="testimonial-text">"Precio justo por la calidad que ofrecen. Ya las he recomendado con todas mis amigas. El lugar es muy higiénico y las chicas siempre están de buen humor."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <p class="author-name">Verónica Gutiérrez</p>
+          <p class="author-since">Clienta desde 2023</p>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p class="testimonial-text">"Me hacen las uñas cada tres semanas y siempre quedo feliz. El semipermanente me dura muchísimo. ¡No cambiaría de lugar por nada del mundo!"</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <p class="author-name">Andrea Castillo</p>
+          <p class="author-since">Clienta desde 2019</p>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <p class="testimonial-text">"Fui por primera vez y ya no quiero ir a otro lado. La atención personalizada es increíble, se nota que les apasiona su trabajo. 100% recomendadas."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <p class="author-name">Mariana López</p>
+          <p class="author-since">Clienta desde 2024</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     CONTACT
+====================================================== -->
+<section id="contact">
+  <div class="fade-in">
+    <span class="section-tag">Contáctanos</span>
+    <h2 class="section-title">Visítanos o agenda tu cita</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-wrapper fade-in">
+    <div class="contact-info">
+      <div class="contact-block">
+        <div class="contact-block-icon"><i class="fas fa-location-dot"></i></div>
+        <div>
+          <h4>Dirección</h4>
+          <p>C. Primavera Lote Oriente 30,<br>San Sebastián, 76165<br>Santiago de Querétaro, Qro.</p>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-block-icon"><i class="fab fa-whatsapp"></i></div>
+        <div>
+          <h4>WhatsApp</h4>
+          <a href="https://wa.me/524421234567" target="_blank">+52 (442) 123-4567</a>
+          <p style="font-size:.8rem;margin-top:.3rem;">Respuesta en menos de 30 min</p>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-block-icon"><i class="fas fa-clock"></i></div>
+        <div>
+          <h4>Horarios</h4>
+          <div class="schedule-grid">
+            <span class="day">Lunes – Viernes</span><span class="time">9:00 – 20:00</span>
+            <span class="day">Sábado</span><span class="time">9:00 – 19:00</span>
+            <span class="day">Domingo</span><span class="time">10:00 – 17:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-block-icon"><i class="fas fa-envelope"></i></div>
+        <div>
+          <h4>Redes sociales</h4>
+          <a href="#" target="_blank"><i class="fab fa-instagram"></i> @PollyNailsSpa</a><br>
+          <a href="#" target="_blank" style="margin-top:.3rem;display:inline-block"><i class="fab fa-facebook"></i> Polly Nails Spa</a>
+        </div>
+      </div>
+    </div>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d942.3!2d-100.4091!3d20.6165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d35b86d5c4e3e5%3A0x0!2sC.%20Primavera%20Lote%20Oriente%2030%2C%20San%20Sebasti%C3%A1n%2C%2076165%20Santiago%20de%20Quer%C3%A9taro%2C%20Qro.!5e0!3m2!1ses!2smx!4v1"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Ubicación Polly Nails Spa">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Polly <span>Nails</span> Spa</div>
+      <p class="footer-tagline">Tu espacio de belleza y relajación en el corazón de Querétaro. Donde cada uña cuenta una historia.</p>
+      <div class="footer-social">
+        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://wa.me/524421234567" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.tiktok.com/" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Servicios</h5>
+      <ul>
+        <li><a href="#services">Manicure</a></li>
+        <li><a href="#services">Pedicure</a></li>
+        <li><a href="#services">Uñas Acrílicas</a></li>
+        <li><a href="#services">Uñas en Gel</a></li>
+        <li><a href="#services">Nail Art</a></li>
+        <li><a href="#services">Depilación</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Información</h5>
+      <ul>
+        <li><a href="#why">¿Por qué elegirnos?</a></li>
+        <li><a href="#pricing">Precios</a></li>
+        <li><a href="#gallery">Galería</a></li>
+        <li><a href="#testimonials">Reseñas</a></li>
+        <li><a href="#contact">Ubicación</a></li>
+        <li><a href="https://wa.me/524421234567" target="_blank">Reservar cita</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Polly Nails Spa · Santiago de Querétaro, México</p>
+    <p>Diseñado con <i class="fas fa-heart" style="color:var(--rose-d)"></i> para ti</p>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/524421234567?text=Hola!%20Quiero%20reservar%20una%20cita%20en%20Polly%20Nails%20Spa" target="_blank" class="wa-float" title="Reservar por WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+<script>
+  /* ---- Navbar scroll shadow ---- */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  /* ---- Mobile menu ---- */
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  /* ---- Falling petals ---- */
+  const petalContainer = document.getElementById('petals');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      animation-duration: ${5 + Math.random() * 8}s;
+      animation-delay: ${Math.random() * 10}s;
+      width: ${12 + Math.random() * 12}px;
+      height: ${18 + Math.random() * 14}px;
+      opacity: ${0.3 + Math.random() * 0.4};
+    `;
+    petalContainer.appendChild(p);
+  }
+
+  /* ---- Gallery placeholders ---- */
+  const galleryData = [
+    { label: 'Nail Art Floral',    icon: 'fa-seedling' },
+    { label: 'Ombré Pastel',       icon: 'fa-palette' },
+    { label: 'Glitter & Gems',     icon: 'fa-gem' },
+    { label: 'French Moderno',     icon: 'fa-star' },
+    { label: 'Acrílicas Coffin',   icon: 'fa-hand-sparkles' },
+    { label: 'Encapsulado',        icon: 'fa-spa' },
+    { label: 'Degradado Rosa',     icon: 'fa-heart' },
+    { label: 'Diseño Navideño',    icon: 'fa-snowflake' },
+    { label: 'Manicure Clásico',   icon: 'fa-circle' },
+  ];
+  const gradients = [
+    'linear-gradient(135deg,#f2c4ce,#e8d5b0)',
+    'linear-gradient(135deg,#e8a0b0,#fdf0f3)',
+    'linear-gradient(135deg,#c9a96e,#f2c4ce)',
+    'linear-gradient(135deg,#fde8ee,#c9a96e)',
+    'linear-gradient(135deg,#e8d5b0,#f2c4ce)',
+    'linear-gradient(135deg,#f2c4ce,#c9a96e)',
+    'linear-gradient(135deg,#fdf0f3,#e8a0b0)',
+    'linear-gradient(135deg,#c9a96e,#e8d5b0)',
+    'linear-gradient(135deg,#e8a0b0,#c9a96e)',
+  ];
+  const grid = document.getElementById('galleryGrid');
+  galleryData.forEach((item, i) => {
+    grid.innerHTML += `
+      <div class="gallery-item">
+        <div class="placeholder" style="background:${gradients[i]}">
+          <i class="fas ${item.icon}"></i>
+          <span>${item.label}</span>
+        </div>
+        <div class="overlay"><span>${item.label}</span></div>
+      </div>`;
+  });
+
+  /* ---- Scroll fade-in ---- */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // stagger children
+        e.target.querySelectorAll('.service-card, .gallery-item, .price-card, .testimonial-card, .why-item')
+          .forEach((child, i) => {
+            child.style.transitionDelay = `${i * 80}ms`;
+            child.classList.add('fade-in');
+            setTimeout(() => child.classList.add('visible'), i * 80 + 100);
+          });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
